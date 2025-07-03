@@ -30,6 +30,12 @@ body, .landing-root {
   box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 
+.logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
+}
+
 .header-buttons {
   display: flex;
   gap: 1rem;
