@@ -1,5 +1,8 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Be sure to include Open Sans in index.html: 
+     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap' rel='stylesheet'> 
+  */
+  font-family: 'Open Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,6 +31,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: #fff;
+  color: #222;
 }
 
 h1 {
