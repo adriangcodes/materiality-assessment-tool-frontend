@@ -6,6 +6,12 @@ body, .landing-root {
   min-height: 100vh;
 }
 
+.landing-root {
+  width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
 .landing-header {
   display: flex;
   justify-content: space-between;
@@ -180,4 +186,116 @@ body, .landing-root {
   body {
     padding: 0 0.2rem;
   }
+}
+
+.home-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 3rem 2rem 2rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero-content {
+  flex: 1 1 0;
+  max-width: 540px;
+  padding: 2rem;
+}
+.hero-title {
+  display: none;
+}
+.hero-blurb {
+  font-size: 1.15rem;
+  color: #444;
+  line-height: 1.7;
+}
+.hero-image-container {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+.hero-image {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(34,197,94,0.08);
+}
+
+@media (max-width: 900px) {
+  .home-hero {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+    padding: 2rem 0 1.5rem 0;
+  }
+  .hero-content,
+  .hero-image-container {
+    padding: 1rem;
+  }
+  .hero-content {
+    max-width: 100%;
+  }
+  .hero-image {
+    max-width: 100%;
+  }
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-left: 3.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.survey-section {
+  margin-bottom: 2rem;
+}
+.survey-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 0.9rem;
+  color: #222;
+}
+.survey-input-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.survey-input {
+  flex: 1 1 0;
+  padding: 1rem 1.3rem;
+  font-size: 1.15rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.2s;
+}
+.survey-input:focus {
+  border: 1.5px solid #22c55e;
+}
+.btn-tertiary {
+  background: transparent;
+  color: #22c55e;
+  border: 1.5px solid #22c55e;
+  font-weight: 600;
+  font-size: 1.15rem;
+  padding: 1rem 2.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-tertiary:hover {
+  background: #e0f7ec;
+  color: #16a34a;
+}
+.small-blurb {
+  font-size: 1rem;
+  color: #444;
 } 

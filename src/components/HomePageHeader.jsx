@@ -4,7 +4,10 @@ function HomePageHeader() {
   return (
     <header className="landing-header">
       <div className="logo-container">
-        <Logo />
+        <a href="/" aria-label="Go to home page">
+          <Logo />
+        </a>
+        <span className="header-title">Materiality Assessment Tool</span>
       </div>
       <div className="header-buttons">
         <button className="btn btn-secondary">LOGIN</button>
