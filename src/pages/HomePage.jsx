@@ -9,8 +9,8 @@ function homePage() {
           <div className="logo-placeholder">LOGO</div>
         </div>
         <div className="header-buttons">
-          <button className="btn btn-primary">REGISTER</button>
           <button className="btn btn-secondary">LOGIN</button>
+          <button className="btn btn-primary">REGISTER</button>
         </div>
       </header>
       <main className="landing-main">
@@ -18,7 +18,7 @@ function homePage() {
       </main>
       <footer className="landing-footer">
         <div className="footer-content">
-          <span>© {new Date().getFullYear()} Your Company. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Materiality Assessment Tool</span>
           <div className="social-icons">
             {/* Facebook */}
             <a href="#" aria-label="Facebook" className="social-icon">

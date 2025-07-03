@@ -46,22 +46,22 @@ body, .landing-root {
 }
 
 .btn-primary {
-  background: #2563eb;
+  background: #22c55e;
   color: #fff;
-  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  box-shadow: 0 2px 8px rgba(34,197,94,0.08);
 }
 .btn-primary:hover {
-  background: #1d4ed8;
+  background: #16a34a;
 }
 
 .btn-secondary {
   background: #f3f6fa;
-  color: #2563eb;
-  border: 1px solid #2563eb;
+  color: #22c55e;
+  border: 1px solid #22c55e;
 }
 .btn-secondary:hover {
-  background: #e0e7ef;
-  color: #1d4ed8;
+  background: #e0f7ec;
+  color: #16a34a;
 }
 
 .landing-main {
@@ -97,19 +97,58 @@ body, .landing-root {
   align-items: center;
 }
 .social-icon:hover {
-  color: #2563eb;
+  color: #22c55e;
 }
 
+.social-icon[aria-label="Instagram"] svg {
+  width: 24px;
+  height: 24px;
+  aspect-ratio: 1 / 1;
+  display: block;
+}
+
+/* Tablet responsiveness */
+@media (max-width: 900px) {
+  .landing-header, .landing-footer {
+    padding: 1.2rem 1.5rem;
+  }
+  .logo-placeholder {
+    font-size: 1.3rem;
+    padding: 0.4rem 1rem;
+  }
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.98rem;
+  }
+}
+
+/* Mobile responsiveness */
 @media (max-width: 600px) {
   .landing-header, .landing-footer {
+    flex-direction: column;
+    align-items: stretch;
     padding: 1rem;
+    gap: 1rem;
   }
   .logo-placeholder {
     font-size: 1.1rem;
     padding: 0.3rem 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+  .header-buttons {
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 100%;
   }
   .btn {
-    padding: 0.5rem 1rem;
+    width: 100%;
+    padding: 0.5rem 0;
     font-size: 0.95rem;
   }
-}
+  .footer-content {
+    gap: 0.5rem;
+  }
+  .social-icons {
+    gap: 0.7rem;
+  }
+} 
