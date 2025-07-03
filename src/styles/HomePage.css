@@ -157,4 +157,27 @@ body, .landing-root {
   .social-icons {
     gap: 0.7rem;
   }
+}
+
+/* Responsive base font size and layout for HomePage only */
+@media (max-width: 1200px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media (max-width: 900px) {
+  html {
+    font-size: 15px;
+  }
+  body {
+    padding: 0 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+  body {
+    padding: 0 0.2rem;
+  }
 } 
