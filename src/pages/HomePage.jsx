@@ -10,7 +10,7 @@ function HomePage() {
         <section className="home-hero">
           <div className="hero-content">
             <section className="survey-section">
-              <h2 className="survey-title">Respond to Survey</h2>
+              <h2 className="survey-title">Complete Your Survey</h2>
               <div className="survey-input-row">
                 <input type="text" className="survey-input" placeholder="Enter your survey code" />
                 <button className="btn btn-tertiary">START</button>
