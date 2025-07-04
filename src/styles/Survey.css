@@ -97,10 +97,6 @@
 
 /* Questions Section Styling */
 .questions-section {
-  margin-top: 3rem;
-}
-
-.questions-section > div {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(34,197,94,0.07);
@@ -116,13 +112,13 @@
 }
 
 @media (min-width: 900px) {
-  .questions-section > div {
+  .questions-section {
     max-width: 900px;
   }
 }
 
 /* Individual Question Styling */
-.questions-section > div > div {
+.questions-section > div {
   width: 100%;
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -131,7 +127,7 @@
   background: #fafafa;
 }
 
-.questions-section > div > div:last-child {
+.questions-section > div:last-child {
   margin-bottom: 0;
 }
 
@@ -296,4 +292,38 @@
 .thank-you-message p {
   font-size: 1.1rem;
   color: #374151;
+}
+
+.return-home-btn {
+  margin-top: 2rem;
+  padding: 0.75rem 2rem;
+  background: #059669;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.return-home-btn:hover {
+  background: #047857;
+}
+
+.survey-submit-btn {
+  margin-top: 2rem;
+  align-self: flex-start;
+  padding: 0.75rem 2rem;
+  background: #059669;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.survey-submit-btn:hover {
+  background: #047857;
 } 
