@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Logo from '../components/Logo'
 import HomePageFooter from '../components/HomePageFooter'
 import '../styles/Survey.css'
@@ -53,6 +53,26 @@ function Survey() {
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
 
+  // Survey details state
+  const [surveyName, setSurveyName] = useState('')
+  const [organisation, setOrganisation] = useState('')
+  const [surveyLoading, setSurveyLoading] = useState(true)
+
+  useEffect(() => {
+    setSurveyLoading(true)
+    fetch(`https://materiality-assessment-tool.onrender.com/survey/${surveyId}`)
+      .then(res => res.json())
+      .then(data => {
+        setSurveyName(data.name || '')
+        setOrganisation(data.organisation || '')
+      })
+      .catch(() => {
+        setSurveyName('')
+        setOrganisation('')
+      })
+      .finally(() => setSurveyLoading(false))
+  }, [surveyId])
+
   const handleChange = e => {
     const { name, value, type, checked } = e.target
     setForm(f => ({
@@ -72,7 +92,7 @@ function Survey() {
       setLoading(false)
       return
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.emailAddress)) {
+    if (!/^[^\s@]+@[^ 0-9]+\.[^\s@]+$/.test(form.emailAddress)) {
       setError('Please enter a valid email address.')
       setLoading(false)
       return
@@ -116,8 +136,12 @@ function Survey() {
       </header>
       <main className="landing-main">
         <div className="survey-content">
-          <h1>Survey Form</h1>
-          <p>Survey ID: {surveyId}</p>
+          <h1>Materiality Survey</h1>
+          <h2>
+            {surveyLoading
+              ? 'Loading...'
+              : `${surveyName}${organisation ? ` by ${organisation}` : ''}`}
+          </h2>
           <form className="respondent-form" onSubmit={handleSubmit}>
             <h2>Respondent Details</h2>
             <div className="form-row">
