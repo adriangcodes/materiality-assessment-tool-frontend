@@ -270,9 +270,10 @@ function Survey() {
               <button type="submit" className="btn btn-primary" disabled={loading || respondentId}>{loading ? 'Submitting...' : respondentId ? 'Details Submitted' : 'Submit Details'}</button>
             </form>
           )}
-          {/* Render questions below respondent form only if respondentId exists */}
-          {respondentId && (
+          {/* Render questions below respondent form only if respondentId exists and survey not yet submitted */}
+          {respondentId && !success && (
             <form className="questions-section" onSubmit={handleSurveySubmit}>
+              <h2>Survey Questions</h2>
               {questionsLoading ? (
                 <div>Loading questions...</div>
               ) : questions.length === 0 ? (
@@ -337,6 +338,13 @@ function Survey() {
                 <button type="submit" className="btn btn-primary" style={{ marginTop: '2rem', alignSelf: 'center' }}>Submit Survey</button>
               )}
             </form>
+          )}
+          {/* Show thank you message after successful submission */}
+          {success && (
+            <div className="thank-you-message">
+              <h2>We greatly appreciate you taking time to respond to this survey.</h2>
+              <p>If you gave your consent to be contacted about your responses, we will be in touch.</p>
+            </div>
           )}
         </div>
       </main>
