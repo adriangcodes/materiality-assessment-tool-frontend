@@ -251,58 +251,61 @@ function Survey() {
             ) : questions.length === 0 ? (
               <div>No questions found for this survey.</div>
             ) : (
-              questions.map(q => {
-                const parsedOptions = parseOptions(q.options)
-                switch (q.questionType) {
-                  case 'single-choice':
-                    return (
-                      <SingleChoiceQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        options={parsedOptions}
-                        value={answers[q._id] || ''}
-                        onChange={val => handleAnswerChange(q._id, val)}
-                      />
-                    )
-                  case 'matrix-importance':
-                  case 'matrix-impact':
-                  case 'matrix-performance':
-                    return (
-                      <MatrixQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        options={parsedOptions}
-                        value={answers[q._id] || {}}
-                        onChange={(topic, val) => {
-                          const prev = answers[q._id] || {}
-                          handleAnswerChange(q._id, { ...prev, [topic]: val })
-                        }}
-                        matrixType={q.questionType}
-                      />
-                    )
-                  case 'ranking':
-                    return (
-                      <RankingQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        options={parsedOptions}
-                        value={answers[q._id] || Array(5).fill('')}
-                        onChange={val => handleAnswerChange(q._id, val)}
-                      />
-                    )
-                  case 'text':
-                    return (
-                      <TextQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        value={answers[q._id] || ''}
-                        onChange={val => handleAnswerChange(q._id, val)}
-                      />
-                    )
-                  default:
-                    return null
-                }
-              })
+              <>
+                <h2>Survey Questions</h2>
+                {questions.map(q => {
+                  const parsedOptions = parseOptions(q.options)
+                  switch (q.questionType) {
+                    case 'single-choice':
+                      return (
+                        <SingleChoiceQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          options={parsedOptions}
+                          value={answers[q._id] || ''}
+                          onChange={val => handleAnswerChange(q._id, val)}
+                        />
+                      )
+                    case 'matrix-importance':
+                    case 'matrix-impact':
+                    case 'matrix-performance':
+                      return (
+                        <MatrixQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          options={parsedOptions}
+                          value={answers[q._id] || {}}
+                          onChange={(topic, val) => {
+                            const prev = answers[q._id] || {}
+                            handleAnswerChange(q._id, { ...prev, [topic]: val })
+                          }}
+                          matrixType={q.questionType}
+                        />
+                      )
+                    case 'ranking':
+                      return (
+                        <RankingQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          options={parsedOptions}
+                          value={answers[q._id] || Array(5).fill('')}
+                          onChange={val => handleAnswerChange(q._id, val)}
+                        />
+                      )
+                    case 'text':
+                      return (
+                        <TextQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          value={answers[q._id] || ''}
+                          onChange={val => handleAnswerChange(q._id, val)}
+                        />
+                      )
+                    default:
+                      return null
+                  }
+                })}
+              </>
             )}
           </div>
         </div>

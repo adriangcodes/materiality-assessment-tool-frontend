@@ -93,4 +93,164 @@
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Questions Section Styling */
+.questions-section {
+  margin-top: 3rem;
+}
+
+.questions-section > div {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(34,197,94,0.07);
+  padding: 2.5rem 2rem;
+  max-width: 70vw;
+  min-width: 400px;
+  width: 100%;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+@media (min-width: 900px) {
+  .questions-section > div {
+    max-width: 900px;
+  }
+}
+
+/* Individual Question Styling */
+.questions-section > div > div {
+  width: 100%;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.questions-section > div > div:last-child {
+  margin-bottom: 0;
+}
+
+.questions-section p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* Single Choice Question Styling */
+.questions-section label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  color: #374151;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.questions-section label:hover {
+  background-color: #f3f4f6;
+}
+
+.questions-section input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #22c55e;
+}
+
+/* Text Question Styling */
+.questions-section textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.questions-section textarea:focus {
+  border: 1.5px solid #22c55e;
+}
+
+/* Matrix Question Styling */
+.questions-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.questions-section table th {
+  background: #f8fafc;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.9rem;
+}
+
+.questions-section table td {
+  padding: 0.8rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.questions-section table td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: #374151;
+  padding-left: 1rem;
+}
+
+.questions-section table input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #22c55e;
+}
+
+/* Ranking Question Styling */
+.questions-section select {
+  height: 40px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.2s;
+  background: white;
+  min-width: 200px;
+}
+
+.questions-section select:focus {
+  border: 1.5px solid #22c55e;
+}
+
+.questions-section select option {
+  padding: 0.5rem;
+}
+
+/* Loading and No Questions States */
+.questions-section > div:first-child {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #6b7280;
+  padding: 2rem;
 } 
