@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Logo from '../components/Logo'
 import HomePageFooter from '../components/HomePageFooter'
 import '../styles/Survey.css'
+import { SingleChoiceQuestion, MatrixQuestion, RankingQuestion, TextQuestion } from '../components/questions';
 
 const countryList = [
   'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
@@ -56,8 +57,15 @@ function Survey() {
   // Survey details state
   const [surveyName, setSurveyName] = useState('')
   const [organisation, setOrganisation] = useState('')
+  const [frameworkId, setFrameworkId] = useState('')
   const [surveyLoading, setSurveyLoading] = useState(true)
 
+  // Master questions state
+  const [questions, setQuestions] = useState([])
+  const [questionsLoading, setQuestionsLoading] = useState(true)
+  const [answers, setAnswers] = useState({})
+
+  // Fetch survey details
   useEffect(() => {
     setSurveyLoading(true)
     fetch(`https://materiality-assessment-tool.onrender.com/survey/${surveyId}`)
@@ -65,13 +73,35 @@ function Survey() {
       .then(data => {
         setSurveyName(data.name || '')
         setOrganisation(data.organisationId?.name || '')
+        setFrameworkId(data.frameworkId || '')
       })
       .catch(() => {
         setSurveyName('')
         setOrganisation('')
+        setFrameworkId('')
       })
       .finally(() => setSurveyLoading(false))
   }, [surveyId])
+
+  // Fetch and filter master questions by frameworkId
+  useEffect(() => {
+    if (!frameworkId) return;
+    setQuestionsLoading(true)
+    fetch('https://materiality-assessment-tool.onrender.com/master-question')
+      .then(res => res.json())
+      .then(data => {
+        // Filter by frameworkId
+        const filtered = data.filter(q => q.frameworkId === frameworkId)
+        setQuestions(filtered)
+      })
+      .catch(() => setQuestions([]))
+      .finally(() => setQuestionsLoading(false))
+  }, [frameworkId])
+
+  // Handle answer change for each question
+  const handleAnswerChange = (questionId, value) => {
+    setAnswers(prev => ({ ...prev, [questionId]: value }))
+  }
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target
@@ -203,6 +233,66 @@ function Survey() {
             {success && <div className="form-success">{success}</div>}
             <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
           </form>
+          {/* Render questions below respondent form */}
+          <div className="questions-section">
+            {questionsLoading ? (
+              <div>Loading questions...</div>
+            ) : questions.length === 0 ? (
+              <div>No questions found for this survey.</div>
+            ) : (
+              questions.map(q => {
+                switch (q.questionType) {
+                  case 'single-choice':
+                    return (
+                      <SingleChoiceQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        options={q.options}
+                        value={answers[q._id] || ''}
+                        onChange={val => handleAnswerChange(q._id, val)}
+                      />
+                    )
+                  case 'matrix-importance':
+                  case 'matrix-impact':
+                  case 'matrix-performance':
+                    return (
+                      <MatrixQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        options={q.options}
+                        value={answers[q._id] || {}}
+                        onChange={(topic, val) => {
+                          const prev = answers[q._id] || {}
+                          handleAnswerChange(q._id, { ...prev, [topic]: val })
+                        }}
+                        matrixType={q.questionType}
+                      />
+                    )
+                  case 'ranking':
+                    return (
+                      <RankingQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        options={q.options}
+                        value={answers[q._id] || Array(5).fill('')}
+                        onChange={val => handleAnswerChange(q._id, val)}
+                      />
+                    )
+                  case 'text':
+                    return (
+                      <TextQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        value={answers[q._id] || ''}
+                        onChange={val => handleAnswerChange(q._id, val)}
+                      />
+                    )
+                  default:
+                    return null
+                }
+              })
+            )}
+          </div>
         </div>
       </main>
       <HomePageFooter />
