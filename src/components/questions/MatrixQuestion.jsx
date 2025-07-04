@@ -1,7 +1,15 @@
 function MatrixQuestion({ questionText, options, value, onChange, matrixType }) {
-  // value: { [topic]: selectedValue }
-  // onChange: (topic, selectedValue) => void
-  const columns = ["1", "2", "3", "4", "5"]; // Customize per matrixType if needed
+  let columns = [];
+  if (matrixType === "matrix-importance") {
+    columns = ["Not Important", "Somewhat Important", "Important", "Very Important"];
+  } else if (matrixType === "matrix-impact") {
+    columns = ["No Impact", "Minor Impact", "Moderate Impact", "Significant Impact"];
+  } else if (matrixType === "matrix-performance") {
+    columns = ["Poor", "Fair", "Good", "Excellent"];
+  } else {
+    columns = ["1", "2", "3", "4", "5"];
+  }
+
   return (
     <div>
       <p>{questionText}</p>
