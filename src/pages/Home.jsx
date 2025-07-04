@@ -5,15 +5,15 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function Home() {
-  const [code, setCode] = useState('');
-  const navigate = useNavigate();
+  const [code, setCode] = useState('')
+  const navigate = useNavigate()
 
   const handleStart = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (code.trim()) {
-      navigate(`/survey/${code.trim()}`);
+      navigate(`/survey/${code.trim()}`)
     }
-  };
+  }
 
   return (
     <div className="landing-root">
