@@ -64,7 +64,7 @@ function Survey() {
       .then(res => res.json())
       .then(data => {
         setSurveyName(data.name || '')
-        setOrganisation(data.organisation || '')
+        setOrganisation(data.organisationId?.name || '')
       })
       .catch(() => {
         setSurveyName('')
