@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import Logo from '../components/Logo'
 import HomePageFooter from '../components/HomePageFooter'
+import '../styles/Survey.css'
 
 const countryList = [
   'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
@@ -130,17 +131,17 @@ function Survey() {
           <form className="respondent-form" onSubmit={handleSubmit}>
             <h2>Respondent Details</h2>
             <div className="form-row">
-              <label>First Name*:
+              <label>First Name:
                 <input name="firstName" value={form.firstName} onChange={handleChange} required />
               </label>
             </div>
             <div className="form-row">
-              <label>Last Name*:
+              <label>Last Name:
                 <input name="lastName" value={form.lastName} onChange={handleChange} required />
               </label>
             </div>
             <div className="form-row">
-              <label>Email Address*:
+              <label>Email Address:
                 <input name="emailAddress" value={form.emailAddress} onChange={handleChange} required type="email" />
               </label>
             </div>
@@ -155,7 +156,7 @@ function Survey() {
               </label>
             </div>
             <div className="form-row">
-              <label>Stakeholder Type*:</label>
+              <label>Stakeholder Type:</label>
               <div className="stakeholder-options">
                 {stakeholderOptions.map(option => (
                   <label key={option} className="stakeholder-checkbox">
