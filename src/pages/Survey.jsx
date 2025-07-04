@@ -113,16 +113,24 @@ function Survey() {
       setLoading(false)
       return
     }
-    if (!/^[^\s@]+@[^ 0-9]+\.[^\s@]+$/.test(form.emailAddress)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.emailAddress)) {
       setError('Please enter a valid email address.')
       setLoading(false)
       return
     }
     try {
+      // Overwrite PII if consent is not given
+      let submitForm = { ...form, surveyId }
+      if (!form.consentToStorePII) {
+        submitForm.firstName = "Anonymous"
+        submitForm.lastName = "Anonymous"
+        submitForm.emailAddress = "Anonymous"
+        submitForm.region = "Anonymous"
+      }
       const res = await fetch('https://materiality-assessment-tool.onrender.com/respondent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, surveyId })
+        body: JSON.stringify(submitForm)
       })
       if (!res.ok) {
         const data = await res.json()
