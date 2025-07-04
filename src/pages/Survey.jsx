@@ -34,7 +34,7 @@ const stakeholderOptions = [
   'Supplier',
   'Community Member',
   'Government / Regulator',
-  'NGO / Civil Society',
+  'NGO / Charity / Civil Society',
   'Other'
 ];
 
