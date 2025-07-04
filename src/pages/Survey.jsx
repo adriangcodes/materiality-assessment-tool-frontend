@@ -222,17 +222,17 @@ function Survey() {
             <form className="respondent-form" onSubmit={handleRespondentSubmit}>
               <h2>Respondent Details</h2>
               <div className="form-row">
-                <label>First Name*:
-                  <input name="firstName" value={form.firstName} onChange={handleChange} required />
+                <label>First Name:
+                  <input name="firstName" type="text" value={form.firstName} onChange={handleChange} required />
                 </label>
               </div>
               <div className="form-row">
-                <label>Last Name*:
-                  <input name="lastName" value={form.lastName} onChange={handleChange} required />
+                <label>Last Name:
+                  <input name="lastName" type="text" value={form.lastName} onChange={handleChange} required />
                 </label>
               </div>
               <div className="form-row">
-                <label>Email Address*:
+                <label>Email Address:
                   <input name="emailAddress" value={form.emailAddress} onChange={handleChange} required type="email" />
                 </label>
               </div>
@@ -247,7 +247,7 @@ function Survey() {
                 </label>
               </div>
               <div className="form-row">
-                <label>Stakeholder Type*:</label>
+                <label>Stakeholder Type:</label>
                 <div className="stakeholder-options">
                   {stakeholderOptions.map(option => (
                     <label key={option} className="stakeholder-checkbox">
