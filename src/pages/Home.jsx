@@ -1,8 +1,8 @@
-import '../styles/HomePage.css'
+import '../styles/Home.css'
 import HomePageHeader from '../components/HomePageHeader'
 import HomePageFooter from '../components/HomePageFooter'
 
-function HomePage() {
+function Home() {
   return (
     <div className="landing-root">
       <HomePageHeader />
@@ -27,4 +27,4 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default Home
