@@ -41,7 +41,7 @@ const stakeholderOptions = [
 function Survey() {
   const { id: surveyId } = useParams()
   const [form, setForm] = useState({
-    stakeholderType: [],
+    stakeholderType: '',
     firstName: '',
     lastName: '',
     emailAddress: '',
@@ -55,20 +55,10 @@ function Survey() {
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target
-    if (name === 'stakeholderType') {
-      setForm(f => {
-        if (checked) {
-          return { ...f, stakeholderType: [...f.stakeholderType, value] }
-        } else {
-          return { ...f, stakeholderType: f.stakeholderType.filter(v => v !== value) }
-        }
-      })
-    } else {
-      setForm(f => ({
-        ...f,
-        [name]: type === 'checkbox' ? checked : value
-      }))
-    }
+    setForm(f => ({
+      ...f,
+      [name]: type === 'checkbox' ? checked : value
+    }))
   }
 
   const handleSubmit = async e => {
@@ -77,7 +67,7 @@ function Survey() {
     setSuccess('')
     setLoading(true)
     // Basic validation
-    if (!form.firstName || !form.lastName || !form.emailAddress) {
+    if (!form.firstName || !form.lastName || !form.emailAddress || !form.stakeholderType) {
       setError('Please fill in all required fields.')
       setLoading(false)
       return
@@ -99,7 +89,7 @@ function Survey() {
       }
       setSuccess('Respondent details submitted!')
       setForm({
-        stakeholderType: [],
+        stakeholderType: '',
         firstName: '',
         lastName: '',
         emailAddress: '',
@@ -131,17 +121,17 @@ function Survey() {
           <form className="respondent-form" onSubmit={handleSubmit}>
             <h2>Respondent Details</h2>
             <div className="form-row">
-              <label>First Name:
+              <label>First Name*:
                 <input name="firstName" value={form.firstName} onChange={handleChange} required />
               </label>
             </div>
             <div className="form-row">
-              <label>Last Name:
+              <label>Last Name*:
                 <input name="lastName" value={form.lastName} onChange={handleChange} required />
               </label>
             </div>
             <div className="form-row">
-              <label>Email Address:
+              <label>Email Address*:
                 <input name="emailAddress" value={form.emailAddress} onChange={handleChange} required type="email" />
               </label>
             </div>
@@ -156,16 +146,17 @@ function Survey() {
               </label>
             </div>
             <div className="form-row">
-              <label>Stakeholder Type:</label>
+              <label>Stakeholder Type*:</label>
               <div className="stakeholder-options">
                 {stakeholderOptions.map(option => (
                   <label key={option} className="stakeholder-checkbox">
                     <input
-                      type="checkbox"
+                      type="radio"
                       name="stakeholderType"
                       value={option}
-                      checked={form.stakeholderType.includes(option)}
+                      checked={form.stakeholderType === option}
                       onChange={handleChange}
+                      required
                     />
                     {option}
                   </label>
