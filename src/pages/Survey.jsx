@@ -206,134 +206,138 @@ function Survey() {
               ? 'Loading...'
               : `${surveyName}${organisation ? ` by ${organisation}` : ''}`}
           </h2>
-          <form className="respondent-form" onSubmit={handleRespondentSubmit}>
-            <h2>Respondent Details</h2>
-            <div className="form-row">
-              <label>First Name*:
-                <input name="firstName" value={form.firstName} onChange={handleChange} required />
-              </label>
-            </div>
-            <div className="form-row">
-              <label>Last Name*:
-                <input name="lastName" value={form.lastName} onChange={handleChange} required />
-              </label>
-            </div>
-            <div className="form-row">
-              <label>Email Address*:
-                <input name="emailAddress" value={form.emailAddress} onChange={handleChange} required type="email" />
-              </label>
-            </div>
-            <div className="form-row">
-              <label>Region:
-                <select name="region" value={form.region} onChange={handleChange}>
-                  <option value="">Select a country</option>
-                  {countryList.map(country => (
-                    <option key={country} value={country}>{country}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <div className="form-row">
-              <label>Stakeholder Type*:</label>
-              <div className="stakeholder-options">
-                {stakeholderOptions.map(option => (
-                  <label key={option} className="stakeholder-checkbox">
-                    <input
-                      type="radio"
-                      name="stakeholderType"
-                      value={option}
-                      checked={form.stakeholderType === option}
-                      onChange={handleChange}
-                      required
-                    />
-                    {option}
-                  </label>
-                ))}
+          {/* Render respondent form only if respondentId is not set */}
+          {!respondentId && (
+            <form className="respondent-form" onSubmit={handleRespondentSubmit}>
+              <h2>Respondent Details</h2>
+              <div className="form-row">
+                <label>First Name*:
+                  <input name="firstName" value={form.firstName} onChange={handleChange} required />
+                </label>
               </div>
-            </div>
-            <div className="form-row">
-              <label>
-                <input type="checkbox" name="consentToContact" checked={form.consentToContact} onChange={handleChange} />
-                Consent to being contacted about your answers
-              </label>
-            </div>
-            <div className="form-row">
-              <label>
-                <input type="checkbox" name="consentToStorePII" checked={form.consentToStorePII} onChange={handleChange} />
-                Consent to store personal data (if unchecked, your answers remain anonymous)
-              </label>
-            </div>
-            {error && <div className="form-error">{error}</div>}
-            {success && <div className="form-success">{success}</div>}
-            <button type="submit" className="btn btn-primary" disabled={loading || respondentId}>{loading ? 'Submitting...' : respondentId ? 'Details Submitted' : 'Submit Details'}</button>
-          </form>
+              <div className="form-row">
+                <label>Last Name*:
+                  <input name="lastName" value={form.lastName} onChange={handleChange} required />
+                </label>
+              </div>
+              <div className="form-row">
+                <label>Email Address*:
+                  <input name="emailAddress" value={form.emailAddress} onChange={handleChange} required type="email" />
+                </label>
+              </div>
+              <div className="form-row">
+                <label>Region:
+                  <select name="region" value={form.region} onChange={handleChange}>
+                    <option value="">Select a country</option>
+                    {countryList.map(country => (
+                      <option key={country} value={country}>{country}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="form-row">
+                <label>Stakeholder Type*:</label>
+                <div className="stakeholder-options">
+                  {stakeholderOptions.map(option => (
+                    <label key={option} className="stakeholder-checkbox">
+                      <input
+                        type="radio"
+                        name="stakeholderType"
+                        value={option}
+                        checked={form.stakeholderType === option}
+                        onChange={handleChange}
+                        required
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div className="form-row">
+                <label>
+                  <input type="checkbox" name="consentToContact" checked={form.consentToContact} onChange={handleChange} />
+                  Consent to being contacted about your answers
+                </label>
+              </div>
+              <div className="form-row">
+                <label>
+                  <input type="checkbox" name="consentToStorePII" checked={form.consentToStorePII} onChange={handleChange} />
+                  Consent to store personal data (if unchecked, your answers remain anonymous)
+                </label>
+              </div>
+              {error && <div className="form-error">{error}</div>}
+              {success && <div className="form-success">{success}</div>}
+              <button type="submit" className="btn btn-primary" disabled={loading || respondentId}>{loading ? 'Submitting...' : respondentId ? 'Details Submitted' : 'Submit Details'}</button>
+            </form>
+          )}
           {/* Render questions below respondent form only if respondentId exists */}
-          <form className="questions-section" onSubmit={handleSurveySubmit}>
-            {respondentId && <h2>Survey Questions</h2>}
-            {respondentId && (questionsLoading ? (
-              <div>Loading questions...</div>
-            ) : questions.length === 0 ? (
-              <div>No questions found for this survey.</div>
-            ) : (
-              questions.map(q => {
-                const parsedOptions = parseOptions(q.options)
-                switch (q.questionType) {
-                  case 'single-choice':
-                    return (
-                      <SingleChoiceQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        options={parsedOptions}
-                        value={answers[q._id] || ''}
-                        onChange={val => handleAnswerChange(q._id, val)}
-                      />
-                    )
-                  case 'matrix-importance':
-                  case 'matrix-impact':
-                  case 'matrix-performance':
-                    return (
-                      <MatrixQuestion
-                        questionId={q._id}
-                        key={q._id}
-                        questionText={q.questionText}
-                        options={parsedOptions}
-                        value={answers[q._id] || {}}
-                        onChange={(topic, val) => {
-                          const prev = answers[q._id] || {}
-                          handleAnswerChange(q._id, { ...prev, [topic]: val })
-                        }}
-                        matrixType={q.questionType}
-                      />
-                    )
-                  case 'ranking':
-                    return (
-                      <RankingQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        options={parsedOptions}
-                        value={answers[q._id] || Array(5).fill('')}
-                        onChange={val => handleAnswerChange(q._id, val)}
-                      />
-                    )
-                  case 'text':
-                    return (
-                      <TextQuestion
-                        key={q._id}
-                        questionText={q.questionText}
-                        value={answers[q._id] || ''}
-                        onChange={val => handleAnswerChange(q._id, val)}
-                      />
-                    )
-                  default:
-                    return null
-                }
-              })
-            ))}
-            {/* Submit button at the bottom, only enabled if respondentId exists */}
-            {respondentId && questions.length > 0 && (
-              <button type="submit" className="btn btn-primary" style={{ marginTop: '2rem', alignSelf: 'center' }}>Submit Survey</button>
-            )}
-          </form>
+          {respondentId && (
+            <form className="questions-section" onSubmit={handleSurveySubmit}>
+              {questionsLoading ? (
+                <div>Loading questions...</div>
+              ) : questions.length === 0 ? (
+                <div>No questions found for this survey.</div>
+              ) : (
+                questions.map(q => {
+                  const parsedOptions = parseOptions(q.options)
+                  switch (q.questionType) {
+                    case 'single-choice':
+                      return (
+                        <SingleChoiceQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          options={parsedOptions}
+                          value={answers[q._id] || ''}
+                          onChange={val => handleAnswerChange(q._id, val)}
+                        />
+                      )
+                    case 'matrix-importance':
+                    case 'matrix-impact':
+                    case 'matrix-performance':
+                      return (
+                        <MatrixQuestion
+                          questionId={q._id}
+                          key={q._id}
+                          questionText={q.questionText}
+                          options={parsedOptions}
+                          value={answers[q._id] || {}}
+                          onChange={(topic, val) => {
+                            const prev = answers[q._id] || {}
+                            handleAnswerChange(q._id, { ...prev, [topic]: val })
+                          }}
+                          matrixType={q.questionType}
+                        />
+                      )
+                    case 'ranking':
+                      return (
+                        <RankingQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          options={parsedOptions}
+                          value={answers[q._id] || Array(5).fill('')}
+                          onChange={val => handleAnswerChange(q._id, val)}
+                        />
+                      )
+                    case 'text':
+                      return (
+                        <TextQuestion
+                          key={q._id}
+                          questionText={q.questionText}
+                          value={answers[q._id] || ''}
+                          onChange={val => handleAnswerChange(q._id, val)}
+                        />
+                      )
+                    default:
+                      return null
+                  }
+                })
+              )}
+              {/* Submit button at the bottom, only enabled if respondentId exists */}
+              {respondentId && questions.length > 0 && (
+                <button type="submit" className="btn btn-primary" style={{ marginTop: '2rem', alignSelf: 'center' }}>Submit Survey</button>
+              )}
+            </form>
+          )}
         </div>
       </main>
       <HomePageFooter />
