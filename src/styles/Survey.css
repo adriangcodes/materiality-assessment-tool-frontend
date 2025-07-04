@@ -326,4 +326,22 @@
 }
 .survey-submit-btn:hover {
   background: #047857;
+}
+
+.ranking-dropdown {
+  width: 320px;
+  min-width: 200px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.1rem;
+  border: 2px solid #059669;
+  border-radius: 8px;
+  background: #f9fafb;
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  transition: border-color 0.2s;
+}
+.ranking-dropdown:focus {
+  border-color: #047857;
+  outline: none;
+  background: #fff;
 } 

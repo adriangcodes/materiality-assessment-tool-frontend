@@ -1,17 +1,18 @@
 function RankingQuestion({ questionText, options, value, onChange }) {
-  // value: array of selected options in order (length 5)
-  // onChange: (newOrder) => void
+  // Normalize options and value to strings
+  const stringOptions = (options || []).map(opt => opt?.toString?.() ?? '')
+  const stringValue = (value || []).map(val => val?.toString?.() ?? '')
 
   // Helper to get available options for a given dropdown
   const getAvailableOptions = (dropdownIdx) => {
     // Exclude options already selected in other dropdowns
-    return options.filter(
-      (opt) => !value.includes(opt) || value[dropdownIdx] === opt
+    return stringOptions.filter(
+      (opt) => !stringValue.includes(opt) || stringValue[dropdownIdx] === opt
     )
   }
 
   const handleSelect = (idx, selected) => {
-    const newValue = [...value];
+    const newValue = [...stringValue];
     newValue[idx] = selected;
     onChange(newValue);
   }
@@ -24,7 +25,8 @@ function RankingQuestion({ questionText, options, value, onChange }) {
           <label>
             {['1st', '2nd', '3rd', '4th', '5th'][idx]} Choice:&nbsp;
             <select
-              value={value[idx] || ""}
+              className="ranking-dropdown"
+              value={stringValue[idx] || ""}
               onChange={e => handleSelect(idx, e.target.value)}
             >
               <option value="">Select...</option>

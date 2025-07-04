@@ -323,6 +323,7 @@ function Survey() {
                           />
                         )
                       case 'ranking':
+                      case 'ranking-5':
                         return (
                           <RankingQuestion
                             key={q._id}
