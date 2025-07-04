@@ -53,6 +53,8 @@ function Survey() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
+  const [respondentId, setRespondentId] = useState(null)
+  const [answers, setAnswers] = useState({})
 
   // Survey details state
   const [surveyName, setSurveyName] = useState('')
@@ -63,7 +65,6 @@ function Survey() {
   // Master questions state
   const [questions, setQuestions] = useState([])
   const [questionsLoading, setQuestionsLoading] = useState(true)
-  const [answers, setAnswers] = useState({})
 
   // Fetch survey details
   useEffect(() => {
@@ -98,31 +99,8 @@ function Survey() {
       .finally(() => setQuestionsLoading(false))
   }, [frameworkId])
 
-  // Handle answer change for each question
-  const handleAnswerChange = (questionId, value) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }))
-  }
-
-  // Helper function to parse options string to array
-  const parseOptions = (optionsString) => {
-    if (!optionsString) return []
-    try {
-      return JSON.parse(optionsString)
-    } catch {
-      // If parsing fails, try splitting by comma
-      return optionsString.split(',').map(opt => opt.trim()).filter(opt => opt)
-    }
-  }
-
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target
-    setForm(f => ({
-      ...f,
-      [name]: type === 'checkbox' ? checked : value
-    }))
-  }
-
-  const handleSubmit = async e => {
+  // Handle respondent form submit
+  const handleRespondentSubmit = async e => {
     e.preventDefault()
     setError('')
     setSuccess('')
@@ -148,20 +126,65 @@ function Survey() {
         const data = await res.json()
         throw new Error(data.error || 'Submission failed')
       }
+      const data = await res.json()
+      setRespondentId(data._id)
       setSuccess('Respondent details submitted!')
-      setForm({
-        stakeholderType: '',
-        firstName: '',
-        lastName: '',
-        emailAddress: '',
-        region: '',
-        consentToContact: false,
-        consentToStorePII: false
-      })
     } catch (err) {
       setError(err.message)
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Handle answer change for each question
+  const handleAnswerChange = (questionId, value) => {
+    setAnswers(prev => ({ ...prev, [questionId]: value }))
+  }
+
+  // Helper function to parse options string to array
+  const parseOptions = (optionsString) => {
+    if (!optionsString) return []
+    try {
+      return JSON.parse(optionsString)
+    } catch {
+      // If parsing fails, try splitting by comma
+      return optionsString.split(',').map(opt => opt.trim()).filter(opt => opt)
+    }
+  }
+
+  const handleChange = e => {
+    const { name, value, type, checked } = e.target
+    setForm(f => ({
+      ...f,
+      [name]: type === 'checkbox' ? checked : value
+    }))
+  }
+
+  // Handle survey answers submit
+  const handleSurveySubmit = async e => {
+    e.preventDefault()
+    setError('')
+    setSuccess('')
+    if (!respondentId) {
+      setError('Please submit your details first.')
+      return
+    }
+    try {
+      for (const [questionId, answer] of Object.entries(answers)) {
+        await fetch('https://materiality-assessment-tool.onrender.com/response', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            surveyId,
+            respondentId,
+            questionId,
+            answer: typeof answer === 'string' ? answer : JSON.stringify(answer)
+          })
+        })
+      }
+      setSuccess('Survey submitted! Thank you for your responses.')
+    } catch {
+      setError('There was an error submitting your responses.')
     }
   }
 
@@ -183,7 +206,7 @@ function Survey() {
               ? 'Loading...'
               : `${surveyName}${organisation ? ` by ${organisation}` : ''}`}
           </h2>
-          <form className="respondent-form" onSubmit={handleSubmit}>
+          <form className="respondent-form" onSubmit={handleRespondentSubmit}>
             <h2>Respondent Details</h2>
             <div className="form-row">
               <label>First Name*:
@@ -242,72 +265,74 @@ function Survey() {
             </div>
             {error && <div className="form-error">{error}</div>}
             {success && <div className="form-success">{success}</div>}
-            <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
+            <button type="submit" className="btn btn-primary" disabled={loading || respondentId}>{loading ? 'Submitting...' : respondentId ? 'Details Submitted' : 'Submit Details'}</button>
           </form>
-          {/* Render questions below respondent form */}
-          <div className="questions-section">
-            {questionsLoading ? (
+          {/* Render questions below respondent form only if respondentId exists */}
+          <form className="questions-section" onSubmit={handleSurveySubmit}>
+            {respondentId && <h2>Survey Questions</h2>}
+            {respondentId && (questionsLoading ? (
               <div>Loading questions...</div>
             ) : questions.length === 0 ? (
               <div>No questions found for this survey.</div>
             ) : (
-              <>
-                <h2>Survey Questions</h2>
-                {questions.map(q => {
-                  const parsedOptions = parseOptions(q.options)
-                  switch (q.questionType) {
-                    case 'single-choice':
-                      return (
-                        <SingleChoiceQuestion
-                          key={q._id}
-                          questionText={q.questionText}
-                          options={parsedOptions}
-                          value={answers[q._id] || ''}
-                          onChange={val => handleAnswerChange(q._id, val)}
-                        />
-                      )
-                    case 'matrix-importance':
-                    case 'matrix-impact':
-                    case 'matrix-performance':
-                      return (
-                        <MatrixQuestion
-                          key={q._id}
-                          questionText={q.questionText}
-                          options={parsedOptions}
-                          value={answers[q._id] || {}}
-                          onChange={(topic, val) => {
-                            const prev = answers[q._id] || {}
-                            handleAnswerChange(q._id, { ...prev, [topic]: val })
-                          }}
-                          matrixType={q.questionType}
-                        />
-                      )
-                    case 'ranking':
-                      return (
-                        <RankingQuestion
-                          key={q._id}
-                          questionText={q.questionText}
-                          options={parsedOptions}
-                          value={answers[q._id] || Array(5).fill('')}
-                          onChange={val => handleAnswerChange(q._id, val)}
-                        />
-                      )
-                    case 'text':
-                      return (
-                        <TextQuestion
-                          key={q._id}
-                          questionText={q.questionText}
-                          value={answers[q._id] || ''}
-                          onChange={val => handleAnswerChange(q._id, val)}
-                        />
-                      )
-                    default:
-                      return null
-                  }
-                })}
-              </>
+              questions.map(q => {
+                const parsedOptions = parseOptions(q.options)
+                switch (q.questionType) {
+                  case 'single-choice':
+                    return (
+                      <SingleChoiceQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        options={parsedOptions}
+                        value={answers[q._id] || ''}
+                        onChange={val => handleAnswerChange(q._id, val)}
+                      />
+                    )
+                  case 'matrix-importance':
+                  case 'matrix-impact':
+                  case 'matrix-performance':
+                    return (
+                      <MatrixQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        options={parsedOptions}
+                        value={answers[q._id] || {}}
+                        onChange={(topic, val) => {
+                          const prev = answers[q._id] || {}
+                          handleAnswerChange(q._id, { ...prev, [topic]: val })
+                        }}
+                        matrixType={q.questionType}
+                      />
+                    )
+                  case 'ranking':
+                    return (
+                      <RankingQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        options={parsedOptions}
+                        value={answers[q._id] || Array(5).fill('')}
+                        onChange={val => handleAnswerChange(q._id, val)}
+                      />
+                    )
+                  case 'text':
+                    return (
+                      <TextQuestion
+                        key={q._id}
+                        questionText={q.questionText}
+                        value={answers[q._id] || ''}
+                        onChange={val => handleAnswerChange(q._id, val)}
+                      />
+                    )
+                  default:
+                    return null
+                }
+              })
+            ))}
+            {/* Submit button at the bottom, only enabled if respondentId exists */}
+            {respondentId && questions.length > 0 && (
+              <button type="submit" className="btn btn-primary" style={{ marginTop: '2rem', alignSelf: 'center' }}>Submit Survey</button>
             )}
-          </div>
+          </form>
         </div>
       </main>
       <HomePageFooter />
