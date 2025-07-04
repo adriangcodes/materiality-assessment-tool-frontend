@@ -40,6 +40,6 @@ function MatrixQuestion({ questionText, options, value, onChange, matrixType }) 
         </tbody>
       </table>
     </div>
-  );
+  )
 }
-export default MatrixQuestion; 
+export default MatrixQuestion
