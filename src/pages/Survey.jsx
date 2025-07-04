@@ -73,7 +73,7 @@ function Survey() {
       .then(data => {
         setSurveyName(data.name || '')
         setOrganisation(data.organisationId?.name || '')
-        setFrameworkId(data.frameworkId || '')
+        setFrameworkId(data.framework || '')
       })
       .catch(() => {
         setSurveyName('')
@@ -91,7 +91,7 @@ function Survey() {
       .then(res => res.json())
       .then(data => {
         // Filter by frameworkId
-        const filtered = data.filter(q => q.frameworkId === frameworkId)
+        const filtered = data.filter(q => q.framework === frameworkId)
         setQuestions(filtered)
       })
       .catch(() => setQuestions([]))
@@ -101,6 +101,17 @@ function Survey() {
   // Handle answer change for each question
   const handleAnswerChange = (questionId, value) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }))
+  }
+
+  // Helper function to parse options string to array
+  const parseOptions = (optionsString) => {
+    if (!optionsString) return []
+    try {
+      return JSON.parse(optionsString)
+    } catch (e) {
+      // If parsing fails, try splitting by comma
+      return optionsString.split(',').map(opt => opt.trim()).filter(opt => opt)
+    }
   }
 
   const handleChange = e => {
@@ -241,13 +252,14 @@ function Survey() {
               <div>No questions found for this survey.</div>
             ) : (
               questions.map(q => {
+                const parsedOptions = parseOptions(q.options)
                 switch (q.questionType) {
                   case 'single-choice':
                     return (
                       <SingleChoiceQuestion
                         key={q._id}
                         questionText={q.questionText}
-                        options={q.options}
+                        options={parsedOptions}
                         value={answers[q._id] || ''}
                         onChange={val => handleAnswerChange(q._id, val)}
                       />
@@ -259,7 +271,7 @@ function Survey() {
                       <MatrixQuestion
                         key={q._id}
                         questionText={q.questionText}
-                        options={q.options}
+                        options={parsedOptions}
                         value={answers[q._id] || {}}
                         onChange={(topic, val) => {
                           const prev = answers[q._id] || {}
@@ -273,7 +285,7 @@ function Survey() {
                       <RankingQuestion
                         key={q._id}
                         questionText={q.questionText}
-                        options={q.options}
+                        options={parsedOptions}
                         value={answers[q._id] || Array(5).fill('')}
                         onChange={val => handleAnswerChange(q._id, val)}
                       />
