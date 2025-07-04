@@ -293,6 +293,7 @@ function Survey() {
                   case 'matrix-performance':
                     return (
                       <MatrixQuestion
+                        questionId={q._id}
                         key={q._id}
                         questionText={q.questionText}
                         options={parsedOptions}

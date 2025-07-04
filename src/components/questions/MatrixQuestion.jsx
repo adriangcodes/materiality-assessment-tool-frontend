@@ -1,4 +1,4 @@
-function MatrixQuestion({ questionText, options, value, onChange, matrixType }) {
+function MatrixQuestion({ questionId, questionText, options, value, onChange, matrixType }) {
   let columns = [];
   if (matrixType === "matrix-importance") {
     columns = ["Not Important", "Somewhat Important", "Important", "Very Important"];
@@ -28,7 +28,7 @@ function MatrixQuestion({ questionText, options, value, onChange, matrixType }) 
                 <td key={col}>
                   <input
                     type="radio"
-                    name={topic}
+                    name={`matrix-${questionId}-${i}`}
                     value={col}
                     checked={value[topic] === col}
                     onChange={() => onChange(topic, col)}
