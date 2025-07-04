@@ -108,7 +108,7 @@ function Survey() {
     if (!optionsString) return []
     try {
       return JSON.parse(optionsString)
-    } catch (e) {
+    } catch {
       // If parsing fails, try splitting by comma
       return optionsString.split(',').map(opt => opt.trim()).filter(opt => opt)
     }

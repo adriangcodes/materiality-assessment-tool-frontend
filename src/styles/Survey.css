@@ -194,36 +194,53 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  table-layout: fixed;
 }
 
-.questions-section table th {
-  background: #f8fafc;
-  padding: 1rem 0.5rem;
-  text-align: center;
-  font-weight: 600;
-  color: #374151;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 0.9rem;
-}
-
+.questions-section table th,
 .questions-section table td {
-  padding: 0.8rem 0.5rem;
   text-align: center;
-  border-bottom: 1px solid #f3f4f6;
-  vertical-align: middle;
+  font-size: 0.98rem;
 }
 
+.questions-section table th:first-child,
 .questions-section table td:first-child {
+  width: 32%;
+  min-width: 180px;
+  max-width: 320px;
   text-align: left;
   font-weight: 500;
   color: #374151;
   padding-left: 1rem;
 }
 
+.questions-section table th:not(:first-child),
+.questions-section table td:not(:first-child) {
+  width: calc(68% / 4); /* 4 response columns */
+  min-width: 80px;
+  max-width: 180px;
+}
+
+.questions-section table th {
+  background: #f8fafc;
+  padding: 1rem 0.5rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.questions-section table td {
+  padding: 0.8rem 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
 .questions-section table input[type="radio"] {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   accent-color: #22c55e;
+  margin: 0 auto;
+  display: block;
 }
 
 /* Ranking Question Styling */
