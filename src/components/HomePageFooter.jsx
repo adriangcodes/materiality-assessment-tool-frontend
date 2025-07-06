@@ -1,4 +1,4 @@
-import React from 'react';
+// Modular footer component.
 
 function HomePageFooter() {
   return (

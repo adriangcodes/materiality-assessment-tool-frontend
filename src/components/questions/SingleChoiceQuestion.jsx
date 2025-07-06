@@ -1,3 +1,5 @@
+// This component renders a single-choice (radio button) question.
+
 function SingleChoiceQuestion({ questionText, options, value, onChange }) {
   return (
     <div>

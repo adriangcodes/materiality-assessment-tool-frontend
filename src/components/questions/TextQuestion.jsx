@@ -1,3 +1,5 @@
+// This component renders a free-text input question.
+
 function TextQuestion({ questionText, value, onChange }) {
   return (
     <div>

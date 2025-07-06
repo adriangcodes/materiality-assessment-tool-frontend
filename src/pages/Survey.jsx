@@ -1,10 +1,15 @@
+// Survey page.
+
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+
+import '../styles/Survey.css'
+
 import Logo from '../components/Logo'
 import HomePageFooter from '../components/HomePageFooter'
-import '../styles/Survey.css'
 import { SingleChoiceQuestion, MatrixQuestion, RankingQuestion, TextQuestion } from '../components/questions';
 
+// List of countries used for respondent details section
 const countryList = [
   'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
   'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia',
@@ -28,6 +33,7 @@ const countryList = [
   'Yemen', 'Zambia', 'Zimbabwe'
 ];
 
+// List of stakeholder options for respondent details section
 const stakeholderOptions = [
   'Employee',
   'Customer',
@@ -39,6 +45,7 @@ const stakeholderOptions = [
   'Other'
 ];
 
+// Main component for the stakeholder survey experience & logic
 function Survey() {
   const { id: surveyId } = useParams()
   const navigate = useNavigate()
@@ -107,7 +114,7 @@ function Survey() {
     setError('')
     setSuccess('')
     setLoading(true)
-    // Basic validation
+    // Basic form validation
     if (!form.firstName || !form.lastName || !form.emailAddress || !form.stakeholderType) {
       setError('Please fill in all required fields.')
       setLoading(false)
@@ -157,7 +164,6 @@ function Survey() {
     try {
       return JSON.parse(optionsString)
     } catch {
-      // If parsing fails, try splitting by comma
       return optionsString.split(',').map(opt => opt.trim()).filter(opt => opt)
     }
   }

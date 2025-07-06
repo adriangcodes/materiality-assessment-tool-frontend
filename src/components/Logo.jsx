@@ -1,3 +1,5 @@
+// Modular logo element.
+
 import matLogo from '../assets/mat_logo.png'
 
 function Logo() {
