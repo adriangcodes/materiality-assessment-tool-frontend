@@ -23,6 +23,9 @@ The Materiality Assessment Tool enables organizations to gather stakeholder inpu
 **Backend Hosting (Render):**  
 [https://materiality-assessment-tool.onrender.com](https://materiality-assessment-tool.onrender.com)
 
+**Frontend Hosting (Netlify):**
+[https://materialityassessmenttool.netlify.app/](https://materialityassessmenttool.netlify.app/)
+
 ---
 
 ## Features
