@@ -124,7 +124,7 @@ function Survey() {
       if (!form.consentToStorePII) {
         submitForm.firstName = "Anonymous"
         submitForm.lastName = "Anonymous"
-        submitForm.emailAddress = "Anonymous"
+        submitForm.emailAddress = "anonymous@anonymous.com"
         submitForm.region = "Anonymous"
       }
       const res = await fetch('https://materiality-assessment-tool.onrender.com/respondent', {
