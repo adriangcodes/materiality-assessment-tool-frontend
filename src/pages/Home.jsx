@@ -1,13 +1,21 @@
-import '../styles/Home.css'
-import HomePageHeader from '../components/HomePageHeader'
-import HomePageFooter from '../components/HomePageFooter'
+// App landing page.
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import '../styles/Home.css'
+
+import HomePageHeader from '../components/HomePageHeader'
+import HomePageFooter from '../components/HomePageFooter'
+
+
 function Home() {
+  // Local state to track the survey code submitted by user
   const [code, setCode] = useState('')
+  // React Router hook for nav
   const navigate = useNavigate()
 
+  // Triggered when the user submits a survey code
   const handleStart = (e) => {
     e.preventDefault()
     if (code.trim()) {

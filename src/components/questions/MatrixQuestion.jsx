@@ -1,3 +1,5 @@
+// This component renders the various "matrix" questionTypes, with the scale varying based on the matrixType
+
 function MatrixQuestion({ questionId, questionText, options, value, onChange, matrixType }) {
   let columns = [];
   if (matrixType === "matrix-importance") {

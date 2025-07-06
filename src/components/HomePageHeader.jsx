@@ -1,3 +1,5 @@
+// Modular header component that imports Logo.
+
 import Logo from './Logo'
 
 function HomePageHeader() {

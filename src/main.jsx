@@ -1,9 +1,14 @@
+// Entry point of the React application
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
+
 import './styles/index.css'
+
 import Home from './pages/Home.jsx'
 import Survey from './pages/Survey.jsx'
 
+// Define App routes
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +22,7 @@ function App() {
 
 export default App
 
+// Mount App into the DOM using the div with id="root" (as defined in index.html)
 createRoot(document.getElementById('root')).render(
   <App />
 )

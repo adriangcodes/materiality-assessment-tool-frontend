@@ -1,3 +1,5 @@
+// This component allows a user to rank their top 5 choices from a list of options.
+
 function RankingQuestion({ questionText, options, value, onChange }) {
   // Debug log
   console.log('RankingQuestion options:', options, 'value:', value)
