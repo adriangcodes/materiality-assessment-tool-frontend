@@ -1,8 +1,6 @@
 // This component allows a user to rank their top 5 choices from a list of options.
 
 function RankingQuestion({ questionText, options, value, onChange }) {
-  // Debug log
-  console.log('RankingQuestion options:', options, 'value:', value)
   // Normalize options and value to strings
   const stringOptions = (options || []).map(opt => opt?.toString?.() ?? '')
   const stringValue = (value || []).map(val => val?.toString?.() ?? '')
